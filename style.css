@@ -1,0 +1,48 @@
+body {
+    background-color: #cacfe33d;
+}
+
+
+#app {
+    background-color: white;
+    margin: 5%;
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 9px 7px 0px -1px rgba(0,0,0,0.10);
+    -moz-box-shadow: 9px 7px 0px -1px rgba(0,0,0,0.10);
+    box-shadow: 9px 7px 0px -1px rgba(0,0,0,0.10);
+}
+
+.btn-label {
+    position: relative;
+    left: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 3px 0 0 3px;
+}
+
+.btn-labeled {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.segundalinha-form {
+    padding-top: 15px;
+}
+
+#botao-addcategoria {
+    padding-top: 40px;
+}
+
+.btn-xl {
+    padding-right: 270px;
+}
+
+.fa-caret-down {
+    padding-right: 10px;
+}

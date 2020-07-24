@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Catálogo Produtos</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container"> 
+        <!-- Header -->
+        <div class="row">
+          <h1 class="display-4">Catálogo de Produtos</h1>
+        </div>
+        <!-- Content -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Preço</th>
+              <th scope="col">Categoria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in listaProdutos">
+              <th scope="row">{{ item.id }}</th>
+              <td>{{ item.nome }}</td>
+              <td>{{ item.marca }}</td>
+              <td>R${{ item.preco }}</td>
+              <td>{{ item.categoria }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-2 offset-10">
+            <button
+              type="button"
+              class="btn btn-labeled btn-info"
+              id="botao-addproduto"
+              data-toggle="modal"
+              data-target="#modalProduto"
+            >
+              <span class="btn-label"><i class="fa fa-plus"></i></span> 
+              Novo
+            </button>
+          </div>
+        </div>
+      <!-- Modal Produto -->
+      <div
+      class="modal fade"
+      id="modalProduto"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="produtoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="produtoModalLabel">
+              Cadastro de Produtos
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Corpo Modal Produto -->
+            <div class="form-row">
+              <div class="col-md">
+                <label for="nome-input">Nome *</label>
+                <input type="text" class="form-control" id="nome-input" placeholder="Nome do item" v-model="novoProduto.nome" required>
+              </div>
+              <div class="col-md">
+                <label for="marca-input">Marca *</label>
+                <input type="text" class="form-control" id="marca-input" placeholder="Marca" v-model="novoProduto.marca" required>
+              </div>
+            </div>
+            <div class="form-row segundalinha-form">
+              <div class="col-9">
+                <label for="categoria-select">Categoria *</label>
+                <select class="form-control" id="categoria-select" v-model="novoProduto.categoria" required>
+                  <option value="">Selecione uma categoria cadastrada</option>
+                  <option v-for="categoria in categorias" :value="categoria.id">{{ categoria.nome }}</option>
+                </select>
+              </div>
+              <div class="col-3">
+                <label for="preco-input">Preço *</label>
+                <input type="number" class="form-control" id="preco-input" placeholder="R$" v-model="novoProduto.preco" required>
+              </div>
+            </div>
+          <p id="botao-addcategoria">
+            <a class="btn btn-outline-secondary btn-xl" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <i class="fa fa-caret-down" aria-hidden="true"></i> Criar nova categoria
+            </a>
+          </p>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <label for="categoria-input">Categoria</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="categoria-input" placeholder="Nome da categoria" v-model="novaCategoria.nome" required>
+                    <button class="btn btn-sm"><i class="fa fa-plus" aria-hidden="true" v-on:click="addCategoria"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+            <button type="button" class="btn btn-info" v-on:click="addProduto" data-dismiss="modal">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
