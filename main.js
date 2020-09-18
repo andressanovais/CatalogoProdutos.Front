@@ -1,63 +1,79 @@
 new Vue({
   el: "#app",
   data: {
-    listaProdutos: [
-      {
-        id: 1,
-        nome: "Notebook",
-        marca: "Acer",
-        preco: 2500,
-        categoria: "Informática",
-      },
-      {
-        id: 2,
-        nome: "Geladeira",
-        marca: "LG",
-        preco: 5000,
-        categoria: "Eletrodoméstico",
-      },
-      {
-        id: 3,
-        nome: "Toalha de Mesa",
-        marca: "A/CASA",
-        preco: 60,
-        categoria: "Cama, Mesa e Banho",
-      },
-      {
-        id: 4,
-        nome: "Blusa Amarela",
-        marca: "Adidas",
-        preco: 100,
-        categoria: "Vestuário",
-      },
-    ],
-    categorias: [
-      { id: 1, nome: "Informática" },
-      { id: 2, nome: "Eletrodoméstico" },
-      { id: 3, nome: "Celular" },
-    ],
+    listaProdutos: [],
+    categorias: [],
     novoProduto: {
-      id: 5,
-      nome: "",
-      marca: "",
-      preco: "",
-      categoria: {}
+      id: 0,
+      nome: '',
+      marca: '',
+      preco: 0,
+      categoriaId: 0
     },
-    novaCategoria: {
-      nome: "",
-      id: 3
-    }
+    novaCategoria: ''
   },
   methods: {
     addProduto: function () {
-      this.listaProdutos.push(this.novoProduto);
-      this.novoProduto.id += 1;
+      var self = this;
+
+      axios
+        .post('http://localhost:62468/produtos', 
+          this.novoProduto)
+        .then(function (response) {
+          console.log(response);
+          self.obterProdutos();
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+
+        this.novoProduto.id = 0;
+        this.novoProduto.nome = '';
+        this.novoProduto.marca = '';
+        this.novoProduto.preco = 0;
+        this.categoriaId = 0;
     },
     addCategoria: function () {
-      this.categorias.push(this.novaCategoria);
-      this.novoProduto.categoria = this.novaCategoria.id;
+      axios
+        .post('http://localhost:62468/categorias', {
+          nome: this.novaCategoria
+        })
+        .then(response => {
+          console.log(response);
+          this.categorias.push(response.data.categoria);
+          this.novoProduto.categoriaId = response.data.categoria.id;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    obterProdutos: function () {
+      axios
+        .get('http://localhost:62468/produtos')
+        .then(response => {
+          this.listaProdutos = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    obterCategorias: function() {
+      axios
+        .get('http://localhost:62468/categorias')
+        .then(response => {
+          this.categorias = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    carregarDados: function()
+    {
+      this.obterProdutos();
+      this.obterCategorias();
     }
   },
   created(){
+    this.carregarDados();
   }
 });

@@ -18,7 +18,7 @@
   </head>
   <body>
     <div id="app">
-      <div class="container"> 
+      <div class="container">
         <!-- Header -->
         <div class="row">
           <h1 class="display-4">Catálogo de Produtos</h1>
@@ -40,7 +40,7 @@
               <td>{{ item.nome }}</td>
               <td>{{ item.marca }}</td>
               <td>R${{ item.preco }}</td>
-              <td>{{ item.categoria }}</td>
+              <td>{{ item.nomeCategoria }}</td>
             </tr>
           </tbody>
         </table>
@@ -53,90 +53,149 @@
               data-toggle="modal"
               data-target="#modalProduto"
             >
-              <span class="btn-label"><i class="fa fa-plus"></i></span> 
+              <span class="btn-label"><i class="fa fa-plus"></i></span>
               Novo
             </button>
           </div>
         </div>
-      <!-- Modal Produto -->
-      <div
-      class="modal fade"
-      id="modalProduto"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="produtoModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="produtoModalLabel">
-              Cadastro de Produtos
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Corpo Modal Produto -->
-            <div class="form-row">
-              <div class="col-md">
-                <label for="nome-input">Nome *</label>
-                <input type="text" class="form-control" id="nome-input" placeholder="Nome do item" v-model="novoProduto.nome" required>
+        <!-- Modal Produto -->
+        <div
+          class="modal fade"
+          id="modalProduto"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="produtoModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="produtoModalLabel">
+                  Cadastro de Produtos
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
-              <div class="col-md">
-                <label for="marca-input">Marca *</label>
-                <input type="text" class="form-control" id="marca-input" placeholder="Marca" v-model="novoProduto.marca" required>
-              </div>
-            </div>
-            <div class="form-row segundalinha-form">
-              <div class="col-9">
-                <label for="categoria-select">Categoria *</label>
-                <select class="form-control" id="categoria-select" v-model="novoProduto.categoria" required>
-                  <option value="">Selecione uma categoria cadastrada</option>
-                  <option v-for="categoria in categorias" :value="categoria.id">{{ categoria.nome }}</option>
-                </select>
-              </div>
-              <div class="col-3">
-                <label for="preco-input">Preço *</label>
-                <input type="number" class="form-control" id="preco-input" placeholder="R$" v-model="novoProduto.preco" required>
-              </div>
-            </div>
-          <p id="botao-addcategoria">
-            <a class="btn btn-outline-secondary btn-xl" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-              <i class="fa fa-caret-down" aria-hidden="true"></i> Criar nova categoria
-            </a>
-          </p>
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                <label for="categoria-input">Categoria</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="categoria-input" placeholder="Nome da categoria" v-model="novaCategoria.nome" required>
-                    <button class="btn btn-sm"><i class="fa fa-plus" aria-hidden="true" v-on:click="addCategoria"></i></button>
+              <div class="modal-body">
+                <!-- Corpo Modal Produto -->
+                <div class="form-row">
+                  <div class="col-md">
+                    <label for="nome-input">Nome *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nome-input"
+                      placeholder="Nome do item"
+                      v-model="novoProduto.nome"
+                      required
+                    />
+                  </div>
+                  <div class="col-md">
+                    <label for="marca-input">Marca *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="marca-input"
+                      placeholder="Marca"
+                      v-model="novoProduto.marca"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-row segundalinha-form">
+                  <div class="col-9">
+                    <label for="categoria-select">Categoria *</label>
+                    <select
+                      class="form-control"
+                      id="categoria-select"
+                      v-model="novoProduto.categoriaId"
+                      required
+                    >
+                      <option value=""
+                        >Selecione uma categoria cadastrada</option
+                      >
+                      <option
+                        v-for="categoria in categorias"
+                        :value="categoria.id"
+                        >{{ categoria.nome }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="col-3">
+                    <label for="preco-input">Preço *</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="preco-input"
+                      placeholder="R$"
+                      v-model="novoProduto.preco"
+                      required
+                    />
+                  </div>
+                </div>
+                <p id="botao-addcategoria">
+                  <a
+                    class="btn btn-outline-secondary btn-xl"
+                    data-toggle="collapse"
+                    href="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                  >
+                    <i class="fa fa-caret-down" aria-hidden="true"></i> Criar
+                    nova categoria
+                  </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    <label for="categoria-input">Categoria</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="categoria-input"
+                        placeholder="Nome da categoria"
+                        v-model="novaCategoria"
+                        required
+                      />
+                      <button class="btn btn-sm">
+                        <i
+                          class="fa fa-plus"
+                          aria-hidden="true"
+                          v-on:click="addCategoria"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Fechar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  v-on:click="addProduto"
+                  data-dismiss="modal"
+                >
+                  Salvar
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Fechar
-            </button>
-            <button type="button" class="btn btn-info" v-on:click="addProduto" data-dismiss="modal">
-              Salvar
-            </button>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -154,6 +213,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
